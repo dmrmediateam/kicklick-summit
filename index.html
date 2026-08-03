@@ -1349,11 +1349,11 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
   var inited = false;
   window.__initParkMap = function(){
   if (inited) return; inited = true;
-  // NOTE FOR TONY: coordinates are close-but-approximate. If the pin sits off the park,
-  // nudge CENTER and the ZONES corner points below — the real streets make it easy to see.
-  var CENTER = { lat: 44.9815, lng: -89.6010 };
+  // NOTE FOR TONY: zones are anchored to the real site at 1329 Sylvan St (chalet, lot, lawn).
+  // Zone rectangles are still a proposed layout — nudge corner points once the setup is final.
+  var CENTER = { lat: 44.98791, lng: -89.60860 };
   var map = new google.maps.Map(el, {
-    center: CENTER, zoom: 16, minZoom: 13, maxZoom: 19,
+    center: CENTER, zoom: 17, minZoom: 13, maxZoom: 20,
     mapTypeId: 'hybrid', // satellite photos + labels; "Map" toggle shows the KickLick paper style
     styles: KICKLICK_STYLE,
     backgroundColor: '#FFFBF2',
@@ -1371,13 +1371,16 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
   var ZONES = [
     { name: '🎤 Main Stage Zone', short: '🎤 Main Stage', color: '#FF4D24', text: '#FFFBF2',
       desc: 'Kick offs, all 3 keynotes, all 3 panels & speaker intros · 9:00 AM – 7:00 PM',
-      pts: [[44.9806,-89.6032],[44.9806,-89.5999],[44.9789,-89.5999],[44.9789,-89.6032]] },
+      chip: { lat: 44.98745, lng: -89.60790 },
+      pts: [[44.98794,-89.60843],[44.98794,-89.60748],[44.98727,-89.60748],[44.98727,-89.60843]] },
     { name: '🛠 Workshop Zone', short: '🛠 Workshops', color: '#3A2BE0', text: '#FFFBF2',
       desc: 'All 7 hands-on workshops across 3 blocks · 10:00 AM – 3:15 PM · bring a laptop',
-      pts: [[44.9827,-89.6046],[44.9827,-89.6014],[44.9808,-89.6014],[44.9808,-89.6046]] },
+      chip: { lat: 44.98785, lng: -89.60870 },
+      pts: [[44.98807,-89.60895],[44.98807,-89.60847],[44.98750,-89.60847],[44.98750,-89.60895]] },
     { name: '🍽 Food & Networking Zone', short: '🍽 Food & Networking', color: '#C6F432', text: '#0F0E17',
       desc: 'Food trucks 11–6 · catered lunch 12:30 · Hour of Power 7–8 PM',
-      pts: [[44.9823,-89.6009],[44.9823,-89.5972],[44.9800,-89.5972],[44.9800,-89.6009]] }
+      chip: { lat: 44.98830, lng: -89.60935 },
+      pts: [[44.98850,-89.60959],[44.98850,-89.60897],[44.98776,-89.60897],[44.98776,-89.60959]] }
   ];
 
   var iw = new google.maps.InfoWindow();
@@ -1424,7 +1427,7 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
       this.getPanes().overlayMouseTarget.appendChild(d);
     };
     ov.draw = function(){
-      var p = this.getProjection().fromLatLngToDivPixel(zoneBounds(z).getCenter());
+      var p = this.getProjection().fromLatLngToDivPixel(z.chip ? new google.maps.LatLng(z.chip.lat, z.chip.lng) : zoneBounds(z).getCenter());
       if (p && this.div){ this.div.style.left = p.x + 'px'; this.div.style.top = p.y + 'px'; }
     };
     ov.onRemove = function(){ if (this.div){ this.div.parentNode.removeChild(this.div); this.div = null; } };
@@ -1434,7 +1437,7 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
   // Main Gate: KickLick-orange pin with ink outline
   var gate = new google.maps.Marker({
     map: map,
-    position: { lat: 44.9788, lng: -89.6018 },
+    position: { lat: 44.98793, lng: -89.60889 },
     title: 'Main Gate — Registration & check-in',
     icon: {
       path: 'M14 0C6.3 0 0 6.3 0 14c0 10.5 14 28 14 28s14-17.5 14-28C28 6.3 21.7 0 14 0zm0 19.6a5.6 5.6 0 1 1 0-11.2 5.6 5.6 0 0 1 0 11.2z',
