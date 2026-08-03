@@ -266,6 +266,11 @@ html{scroll-behavior:smooth}
 /* Confirmed & host tags on people cards */
 .card-thumb{position:relative}
 .tag-confirmed{position:absolute;bottom:10px;left:10px;background:var(--volt);color:var(--ink);border:2px solid var(--ink);font-family:'Fredoka','Archivo',sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;z-index:2}
+/* To-be-determined instructor slot: dashed empty-slot card, no click affordance */
+.tag-tbd{position:absolute;bottom:10px;left:10px;background:var(--sun);color:var(--ink);border:2px solid var(--ink);font-family:'Fredoka','Archivo',sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;z-index:2}
+.svc.tbd{border-style:dashed;cursor:default}
+.svc.tbd:hover{transform:none;box-shadow:var(--shadow)}
+.svc.tbd .card-thumb{border-bottom-style:dashed}
 .tag-host{position:absolute;bottom:10px;right:10px;background:var(--kick);color:var(--paper);border:2px solid var(--ink);font-family:'Fredoka','Archivo',sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;z-index:2}
 /* Square people photos, faces centered */
 #speakers .card-thumb,#instructors .card-thumb{aspect-ratio:1/1}
@@ -530,6 +535,12 @@ html{scroll-behavior:smooth}
         <div class="svc-sub">Community Leader</div>
         <p>Iraq War veteran, 13 years in education, founder of The Joseph Project — and 2026's top vote-getter for Wausau School Board.</p>
         <a class="svc-link" href="#" onclick="event.preventDefault()">Learn More →</a>
+      </div>
+      <div class="svc tbd reveal" aria-label="Instructor to be announced">
+        <div class="card-thumb"><img data-ph="?|#04031C|#C6F432" alt="Instructor to be announced" width="640" height="640"><span class="tag-tbd">Coming Soon</span></div>
+        <h3>To Be Determined</h3>
+        <div class="svc-sub">More Instructors On The Way</div>
+        <p>More coming soon — the next workshop leader is being confirmed now.</p>
       </div>
     </div>
   </div>
