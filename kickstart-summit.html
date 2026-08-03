@@ -242,6 +242,19 @@ html{scroll-behavior:smooth}
 /* Zone name chips pinned on the map itself */
 .zone-chip{position:absolute;transform:translate(-50%,-50%);font-family:'Archivo Black','Archivo',sans-serif;text-transform:uppercase;font-size:12px;letter-spacing:.04em;white-space:nowrap;padding:7px 11px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;user-select:none;transition:transform .15s}
 .zone-chip:hover{transform:translate(-50%,-50%) scale(1.06)}
+/* Food section: grouped tiers — confirmed value first, dashed empty slots for pending trucks */
+.food-tier-label{font-family:'Fredoka','Archivo',sans-serif;font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--volt);margin:36px 0 14px}
+.truck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.truck{position:relative;display:flex;flex-direction:column;gap:10px;padding:24px 22px;border:3px dashed rgba(255,251,242,.5);color:var(--paper)}
+.truck h3{font-size:19px;margin-top:2px}
+.truck p{font-size:14.5px;line-height:1.55;opacity:.85}
+.truck .hrs{margin-top:auto;padding-top:12px;border-top:2px solid rgba(255,251,242,.25);font-family:'Fredoka','Archivo',sans-serif;font-weight:500;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.truck.inc{background:var(--paper);color:var(--ink);border:var(--border);box-shadow:8px 8px 0 var(--volt)}
+.truck.inc .hrs{border-top-color:rgba(15,14,23,.2)}
+.badge-pending,.badge-inc{align-self:flex-start;font-family:'Fredoka','Archivo',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px}
+.badge-pending{border:2px dashed var(--sun);color:var(--sun)}
+.badge-inc{background:var(--volt);color:var(--ink);border:2.5px solid var(--ink)}
+@media(max-width:700px){.truck-grid{grid-template-columns:1fr}}
 .zone-key{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
 .zk{border:var(--border);box-shadow:var(--shadow-sm);padding:14px 16px;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase;font-size:14.5px;letter-spacing:.03em;cursor:pointer;text-align:left}
 .zk:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
@@ -590,12 +603,16 @@ html{scroll-behavior:smooth}
     <span class="sec-tag">Food &amp; drink</span>
     <h2>The food is <span class="hl-volt">half the reason to come</span></h2>
     <p class="sec-intro">Catered lunch and the closing Hour of Power are on us. Food trucks handle everything in between — <b>the truck lineup is being finalized now.</b></p>
+    <p class="food-tier-label">Included with your ticket</p>
+    <div class="truck-grid">
+      <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Catered Lunch</h3><p>Seated by industry at the Food Pavilion — eat with people who get your business.</p><span class="hrs">12:30 PM · Food &amp; Networking Zone</span></div>
+      <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Hour of Power</h3><p>The closing networking hour — every connection you didn't make yet, made.</p><span class="hrs">7 – 8 PM · Food &amp; Networking Zone</span></div>
+    </div>
+    <p class="food-tier-label">Food Truck Row · pay as you go</p>
     <div class="truck-grid">
       <div class="truck reveal"><div class="badge-pending">Truck #1</div><h3>Coming Soon</h3><p>Vendor being confirmed — announcement on the way.</p><span class="hrs">11 AM – 6 PM · Truck Row</span></div>
       <div class="truck reveal"><div class="badge-pending">Truck #2</div><h3>Coming Soon</h3><p>Wausau favorites are in the running.</p><span class="hrs">11 AM – 6 PM · Truck Row</span></div>
       <div class="truck reveal"><div class="badge-pending">Truck #3</div><h3>Coming Soon</h3><p>Follow KickLick for the reveal.</p><span class="hrs">11 AM – 6 PM · Truck Row</span></div>
-      <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Catered Lunch</h3><p>Seated by industry at the Food Pavilion — eat with people who get your business.</p><span class="hrs">12:30 PM · Food &amp; Networking Zone</span></div>
-      <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Hour of Power</h3><p>The closing networking hour — every connection you didn't make yet, made.</p><span class="hrs">7 – 8 PM · Food &amp; Networking Zone</span></div>
     </div>
   </div>
 </section>
