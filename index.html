@@ -19,7 +19,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Archivo+Black&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://kicklick.com/kicklick-style.css">
 <link rel="icon" href="https://kicklick.com/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="https://kicklick.com/favicon.png" type="image/png" sizes="48x48">
@@ -231,11 +230,18 @@ html{scroll-behavior:smooth}
 .ws-li{cursor:pointer;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 .ws-li:hover{text-decoration-color:var(--kick)}
 .ws-li::after{content:" →";font-weight:800}
-/* Interactive park map */
-.map-wrap{border:var(--border);box-shadow:var(--shadow);background:#fff;margin-top:36px}
-#parkMap{height:560px;width:100%}
-#parkMap .leaflet-popup-content-wrapper{border:3px solid var(--ink);border-radius:0;box-shadow:5px 5px 0 var(--ink);font-family:'Archivo',sans-serif}
-#parkMap .leaflet-popup-content b{font-family:'Archivo Black','Archivo',sans-serif;text-transform:uppercase;display:block;margin-bottom:4px}
+/* Interactive park map (Google Maps, KickLick-styled) */
+.map-wrap{border:var(--border);box-shadow:var(--shadow);background:var(--paper);margin-top:36px}
+#parkMap{height:560px;width:100%;background:var(--paper)}
+/* Info windows, KickLick-ified: square corners, ink border, hard shadow */
+#parkMap .gm-style .gm-style-iw-c{border-radius:0!important;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink)!important;background:var(--paper);padding:14px 16px!important;max-width:300px!important}
+#parkMap .gm-style .gm-style-iw-d{overflow:hidden!important;font-family:'Archivo',sans-serif;font-size:14px;line-height:1.45;color:var(--ink)}
+#parkMap .gm-style .gm-style-iw-d b{font-family:'Archivo Black','Archivo',sans-serif;text-transform:uppercase;display:block;margin-bottom:4px}
+#parkMap .gm-style .gm-style-iw-tc::after{background:var(--ink)}
+#parkMap .gm-ui-hover-effect{top:0!important;right:0!important}
+/* Zone name chips pinned on the map itself */
+.zone-chip{position:absolute;transform:translate(-50%,-50%);font-family:'Archivo Black','Archivo',sans-serif;text-transform:uppercase;font-size:12px;letter-spacing:.04em;white-space:nowrap;padding:7px 11px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;user-select:none;transition:transform .15s}
+.zone-chip:hover{transform:translate(-50%,-50%) scale(1.06)}
 .zone-key{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
 .zk{border:var(--border);box-shadow:var(--shadow-sm);padding:14px 16px;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase;font-size:14.5px;letter-spacing:.03em;cursor:pointer;text-align:left}
 .zk:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
@@ -1304,60 +1310,154 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
   }, 4200);
 })();
 </script>
-<!-- Interactive Sylvan Hill Park map (Leaflet + OpenStreetMap) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<!-- Interactive Sylvan Hill Park map (Google Maps JS API, KickLick paper-map style) -->
 <script>
 (function(){
   var el = document.getElementById('parkMap');
-  if (!el || !window.L) return;
-  // Lazy-init: build the map (and fetch OSM tiles) only when the section nears the viewport
+  if (!el) return;
+  var API_KEY = 'AIzaSyBmXW0m2M19HbpykjFvSi6LwuMfY3uTHdA';
+  var loading = false;
+  // Lazy-load the Maps API only when the section nears the viewport
+  function loadApi(){
+    if (loading || (window.google && window.google.maps)) return; loading = true;
+    var s = document.createElement('script');
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=' + API_KEY + '&callback=__initParkMap&loading=async&v=weekly';
+    s.async = true;
+    document.head.appendChild(s);
+  }
+
+  // KickLick paper-map style: cream land, thin ink pen-lines, sun highways, cobalt water, volt parks
+  var KICKLICK_STYLE = [
+    { elementType: 'geometry', stylers: [{ color: '#FFFBF2' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#0F0E17' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#FFFBF2' }, { weight: 3 }] },
+    { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+    { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+    { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'on' }, { color: '#E4F2B8' }] },
+    { featureType: 'poi.park', elementType: 'labels.text', stylers: [{ visibility: 'on' }] },
+    { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+    { featureType: 'landscape.man_made', elementType: 'geometry', stylers: [{ color: '#FFFBF2' }] },
+    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#FFFFFF' }] },
+    { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#0F0E17' }, { weight: 0.6 }] },
+    { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#FFC940' }] },
+    { featureType: 'road.highway', elementType: 'geometry.stroke', stylers: [{ color: '#0F0E17' }, { weight: 1.4 }] },
+    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#BCC4F2' }] },
+    { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#3A2BE0' }] },
+    { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#0F0E17' }, { weight: 0.8 }] }
+  ];
+
   var inited = false;
-  function initMap(){
+  window.__initParkMap = function(){
   if (inited) return; inited = true;
   // NOTE FOR TONY: coordinates are close-but-approximate. If the pin sits off the park,
   // nudge CENTER and the ZONES corner points below — the real streets make it easy to see.
-  var CENTER = [44.9815, -89.6010];
-  var map = L.map('parkMap', { scrollWheelZoom: false }).setView(CENTER, 16);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19, minZoom: 13,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-  map.on('click', function(){ map.scrollWheelZoom.enable(); });
-  map.on('mouseout', function(){ map.scrollWheelZoom.disable(); });
+  var CENTER = { lat: 44.9815, lng: -89.6010 };
+  var map = new google.maps.Map(el, {
+    center: CENTER, zoom: 16, minZoom: 13, maxZoom: 19,
+    styles: KICKLICK_STYLE,
+    backgroundColor: '#FFFBF2',
+    gestureHandling: 'cooperative',
+    mapTypeControl: false, streetViewControl: false, fullscreenControl: true,
+    clickableIcons: false
+  });
 
   var ZONES = [
-    { name: '\ud83c\udfa4 Main Stage Zone', color: '#FF4D24',
-      desc: 'Kick offs, all 3 keynotes, all 3 panels & speaker intros \u00b7 9:00 AM \u2013 7:00 PM',
+    { name: '🎤 Main Stage Zone', short: '🎤 Main Stage', color: '#FF4D24', text: '#FFFBF2',
+      desc: 'Kick offs, all 3 keynotes, all 3 panels & speaker intros · 9:00 AM – 7:00 PM',
       pts: [[44.9806,-89.6032],[44.9806,-89.5999],[44.9789,-89.5999],[44.9789,-89.6032]] },
-    { name: '\ud83d\udee0 Workshop Zone', color: '#3A2BE0',
-      desc: 'All 7 hands-on workshops across 3 blocks \u00b7 10:00 AM \u2013 3:15 PM \u00b7 bring a laptop',
+    { name: '🛠 Workshop Zone', short: '🛠 Workshops', color: '#3A2BE0', text: '#FFFBF2',
+      desc: 'All 7 hands-on workshops across 3 blocks · 10:00 AM – 3:15 PM · bring a laptop',
       pts: [[44.9827,-89.6046],[44.9827,-89.6014],[44.9808,-89.6014],[44.9808,-89.6046]] },
-    { name: '\ud83c\udf7d Food & Networking Zone', color: '#C6F432',
-      desc: 'Food trucks 11\u20136 \u00b7 catered lunch 12:30 \u00b7 Hour of Power 7\u20138 PM',
+    { name: '🍽 Food & Networking Zone', short: '🍽 Food & Networking', color: '#C6F432', text: '#0F0E17',
+      desc: 'Food trucks 11–6 · catered lunch 12:30 · Hour of Power 7–8 PM',
       pts: [[44.9823,-89.6009],[44.9823,-89.5972],[44.9800,-89.5972],[44.9800,-89.6009]] }
   ];
-  var layers = ZONES.map(function(z){
-    var poly = L.polygon(z.pts, { color: '#0F0E17', weight: 3, fillColor: z.color, fillOpacity: 0.45 }).addTo(map);
-    poly.bindPopup('<b>' + z.name + '</b>' + z.desc);
-    poly.on('mouseover', function(){ poly.setStyle({ fillOpacity: 0.65 }); });
-    poly.on('mouseout', function(){ poly.setStyle({ fillOpacity: 0.45 }); });
+
+  var iw = new google.maps.InfoWindow();
+  function zoneBounds(z){
+    var b = new google.maps.LatLngBounds();
+    z.pts.forEach(function(p){ b.extend({ lat: p[0], lng: p[1] }); });
+    return b;
+  }
+  function openZone(z){
+    iw.setContent('<b>' + z.name + '</b>' + z.desc);
+    iw.setPosition(zoneBounds(z).getCenter());
+    iw.open({ map: map });
+  }
+
+  var polys = ZONES.map(function(z){
+    var poly = new google.maps.Polygon({
+      map: map,
+      paths: z.pts.map(function(p){ return { lat: p[0], lng: p[1] }; }),
+      strokeColor: '#0F0E17', strokeWeight: 3, strokeOpacity: 1,
+      fillColor: z.color, fillOpacity: 0.5
+    });
+    poly.addListener('mouseover', function(){ poly.setOptions({ fillOpacity: 0.72, strokeWeight: 4 }); });
+    poly.addListener('mouseout', function(){ poly.setOptions({ fillOpacity: 0.5, strokeWeight: 3 }); });
+    poly.addListener('click', function(){ openZone(z); });
     return poly;
   });
-  L.marker([44.9788,-89.6018]).addTo(map).bindPopup('<b>\ud83d\udeaa Main Gate</b>Registration & check-in \u00b7 7:00 AM \u00b7 1329 Sylvan St');
+
+  // Zone name chips pinned to each zone's center
+  ZONES.forEach(function(z, i){
+    var ov = new google.maps.OverlayView();
+    ov.onAdd = function(){
+      var d = document.createElement('div');
+      d.className = 'zone-chip';
+      d.style.background = z.color;
+      d.style.color = z.text;
+      d.textContent = z.short;
+      d.addEventListener('click', function(){ window.focusZone(i); });
+      this.div = d;
+      this.getPanes().overlayMouseTarget.appendChild(d);
+    };
+    ov.draw = function(){
+      var p = this.getProjection().fromLatLngToDivPixel(zoneBounds(z).getCenter());
+      if (p && this.div){ this.div.style.left = p.x + 'px'; this.div.style.top = p.y + 'px'; }
+    };
+    ov.onRemove = function(){ if (this.div){ this.div.parentNode.removeChild(this.div); this.div = null; } };
+    ov.setMap(map);
+  });
+
+  // Main Gate: KickLick-orange pin with ink outline
+  var gate = new google.maps.Marker({
+    map: map,
+    position: { lat: 44.9788, lng: -89.6018 },
+    title: 'Main Gate — Registration & check-in',
+    icon: {
+      path: 'M14 0C6.3 0 0 6.3 0 14c0 10.5 14 28 14 28s14-17.5 14-28C28 6.3 21.7 0 14 0zm0 19.6a5.6 5.6 0 1 1 0-11.2 5.6 5.6 0 0 1 0 11.2z',
+      fillColor: '#FF4D24', fillOpacity: 1,
+      strokeColor: '#0F0E17', strokeWeight: 2.5,
+      scale: 1.15,
+      anchor: new google.maps.Point(14, 42)
+    }
+  });
+  gate.addListener('click', function(){
+    iw.setContent('<b>🚪 Main Gate</b>Registration & check-in · 7:00 AM · 1329 Sylvan St');
+    iw.open({ map: map, anchor: gate });
+  });
+
   window.focusZone = function(i){
-    map.fitBounds(layers[i].getBounds().pad(0.35));
-    layers[i].openPopup();
+    map.fitBounds(zoneBounds(ZONES[i]), 90);
+    openZone(ZONES[i]);
   };
-  }
+  };
+
   if ('IntersectionObserver' in window) {
     var mo = new IntersectionObserver(function(es){
-      es.forEach(function(e){ if (e.isIntersecting){ initMap(); mo.disconnect(); } });
+      es.forEach(function(e){ if (e.isIntersecting){ loadApi(); mo.disconnect(); } });
     }, { rootMargin: '600px 0px' });
     mo.observe(el);
-  } else { initMap(); }
-  // zone buttons work even if clicked before the map inits:
-  // initMap() replaces window.focusZone with the real one, then we forward the click
-  var stub = function(i){ initMap(); if (window.focusZone !== stub) window.focusZone(i); };
+  } else { loadApi(); }
+  // zone buttons work even if clicked before the map API loads:
+  // __initParkMap() replaces window.focusZone with the real one, then we forward the click
+  var stub = function(i){
+    loadApi();
+    var tries = 0, iv = setInterval(function(){
+      if (window.focusZone !== stub){ clearInterval(iv); window.focusZone(i); }
+      else if (++tries > 80){ clearInterval(iv); }
+    }, 100);
+  };
   window.focusZone = stub;
 })();
 </script>
