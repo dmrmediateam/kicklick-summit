@@ -584,18 +584,18 @@ html{scroll-behavior:smooth}
 
 
 <!-- ═══ FOOD ═══ -->
-<!-- NOTE FOR TONY: food truck lineup & menus below are placeholders — swap in confirmed vendors, hours & prices (edit the FOODTRUCKS data block in the script) -->
+<!-- NOTE FOR TONY: truck slots show "Coming Soon" — swap in confirmed vendors, hours & taglines when the lineup locks -->
 <section class="sec bordered on-dark slide" id="food">
   <div class="container">
     <span class="sec-tag">Food &amp; drink</span>
     <h2>The food is <span class="hl-volt">half the reason to come</span></h2>
-    <p class="sec-intro">Catered lunch and the closing Hour of Power are on us. Food trucks handle everything in between. Tap a truck to peek the menu — <b>truck lineup is pending and subject to change.</b></p>
+    <p class="sec-intro">Catered lunch and the closing Hour of Power are on us. Food trucks handle everything in between — <b>the truck lineup is being finalized now.</b></p>
     <div class="truck-grid">
-      <button class="truck reveal" onclick="openTruck('noods')"><div class="badge-pending">Pending</div><span class="emoji">🍜</span><h3>Saucy Noods</h3><p>Noodle bowls with serious sauce game — the line will be worth it.</p><span class="hrs">11 AM – 6 PM · Truck Row</span><span class="peek">Peek the menu →</span></button>
-      <button class="truck reveal" onclick="openTruck('tacos')"><div class="badge-pending">Pending</div><span class="emoji">🌮</span><h3>Mitch's Texas Tacos</h3><p>Texas-style tacos in central Wisconsin. Yes, really.</p><span class="hrs">11 AM – 6 PM · Truck Row</span><span class="peek">Peek the menu →</span></button>
-      <button class="truck reveal" onclick="openTruck('bbq')"><div class="badge-pending">Pending</div><span class="emoji">🍖</span><h3>Hawg Tyed BBQ</h3><p>Low &amp; slow since sunrise. Brisket that outsells the keynotes.</p><span class="hrs">11 AM – 6 PM · Truck Row</span><span class="peek">Peek the menu →</span></button>
-      <div class="truck inc reveal"><div class="badge-inc">Included</div><span class="emoji">🍽️</span><h3>Catered Lunch</h3><p>Seated by industry at the Food Pavilion — eat with people who get your business.</p><span class="hrs">12:30 PM · Food &amp; Networking Zone</span></div>
-      <div class="truck inc reveal"><div class="badge-inc">Included</div><span class="emoji">🍻</span><h3>Hour of Power</h3><p>The closing networking hour — every connection you didn't make yet, made.</p><span class="hrs">7 – 8 PM · Food &amp; Networking Zone</span></div>
+      <div class="truck reveal"><div class="badge-pending">Truck #1</div><h3>Coming Soon</h3><p>Vendor being confirmed — announcement on the way.</p><span class="hrs">11 AM – 6 PM · Truck Row</span></div>
+      <div class="truck reveal"><div class="badge-pending">Truck #2</div><h3>Coming Soon</h3><p>Wausau favorites are in the running.</p><span class="hrs">11 AM – 6 PM · Truck Row</span></div>
+      <div class="truck reveal"><div class="badge-pending">Truck #3</div><h3>Coming Soon</h3><p>Follow KickLick for the reveal.</p><span class="hrs">11 AM – 6 PM · Truck Row</span></div>
+      <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Catered Lunch</h3><p>Seated by industry at the Food Pavilion — eat with people who get your business.</p><span class="hrs">12:30 PM · Food &amp; Networking Zone</span></div>
+      <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Hour of Power</h3><p>The closing networking hour — every connection you didn't make yet, made.</p><span class="hrs">7 – 8 PM · Food &amp; Networking Zone</span></div>
     </div>
   </div>
 </section>
@@ -1151,43 +1151,6 @@ function openWorkshop(id) {
       w.covers.map(function(c,i){ return "<div class='ws-step'><i>" + (i+1) + "</i><p>" + c + "</p></div>"; }).join("") +
     "</div>" +
     "<div class='ws-sess-wrap'>" + leadSessions(id, w) + "</div>";
-  spkOverlay.classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-
-// ═══ FOOD TRUCK MENUS (placeholders — edit freely) ═══
-const FOODTRUCKS = {
-  noods: { name:"Saucy Noods", emoji:"\ud83c\udf5c", hours:"11:00 AM \u2013 6:00 PM", loc:"Food Truck Row",
-    vibe:"Noodle bowls with serious sauce game.",
-    menu:[["Signature noodle bowl","$13"],["Spicy garlic noods","$13"],["Veggie bowl","$11"],["Crab rangoon (6)","$8"],["Thai iced tea","$5"]],
-    note:"Menu pending \u2014 final items confirmed closer to the event." },
-  tacos: { name:"Mitch's Texas Tacos", emoji:"\ud83c\udf2e", hours:"11:00 AM \u2013 6:00 PM", loc:"Food Truck Row",
-    vibe:"Texas-style tacos in central Wisconsin.",
-    menu:[["Street tacos (3)","$11"],["Brisket taco","$5"],["Loaded nachos","$12"],["Chips & queso","$6"],["Horchata","$4"]],
-    note:"Menu pending \u2014 final items confirmed closer to the event." },
-  bbq: { name:"Hawg Tyed BBQ", emoji:"\ud83c\udf56", hours:"11:00 AM \u2013 6:00 PM", loc:"Food Truck Row",
-    vibe:"On the smoker since sunrise so you don't have to be.",
-    menu:[["Brisket plate","$15"],["Pulled pork sandwich","$12"],["Smoked mac & cheese","$8"],["Rib basket","$16"],["Cornbread","$3"]],
-    note:"Menu pending \u2014 final items confirmed closer to the event." }
-};
-function openTruck(id) {
-  var t = FOODTRUCKS[id]; if (!t) return;
-  spkBox.innerHTML =
-    "<button class='spk-close' onclick='closeSpeaker()' aria-label='Close'>\u2715</button>" +
-    "<div class='spk-head'><div class='truck-face'>" + t.emoji + "</div>" +
-      "<div><div class='spk-kicker'>Food Truck \u00b7 " + t.hours + "</div><h3>" + t.name + "</h3><p class='spk-role'>" + t.vibe + "</p></div></div>" +
-    "<div class='spk-body'>" +
-      "<div class='spk-bio'><h4>Menu</h4>" +
-        t.menu.map(function(m){ return "<div class='spk-fact'><b style='text-align:left'>" + m[0] + "</b><span style='font-family:Archivo,sans-serif;font-size:15px;font-weight:800;opacity:1;text-transform:none;letter-spacing:0'>" + m[1] + "</span></div>"; }).join("") +
-        "<p class='spk-talk' style='margin-top:18px'>" + t.note + "</p></div>" +
-      "<div class='spk-facts'><h4>Details</h4>" +
-        "<div class='spk-fact'><span>Serving</span><b>" + t.hours + "</b></div>" +
-        "<div class='spk-fact'><span>Find it</span><b>" + t.loc + "</b></div>" +
-        "<div class='spk-fact'><span>Payment</span><b>Card & cash</b></div>" +
-        "<div class='spk-fact'><span>Included?</span><b>Pay as you go</b></div>" +
-        "<div class='spk-fact'><span>Status</span><b>Pending \u00b7 subject to change</b></div>" +
-      "</div>" +
-    "</div>";
   spkOverlay.classList.add("open");
   document.body.style.overflow = "hidden";
 }
