@@ -1354,10 +1354,17 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
   var CENTER = { lat: 44.9815, lng: -89.6010 };
   var map = new google.maps.Map(el, {
     center: CENTER, zoom: 16, minZoom: 13, maxZoom: 19,
+    mapTypeId: 'hybrid', // satellite photos + labels; "Map" toggle shows the KickLick paper style
     styles: KICKLICK_STYLE,
     backgroundColor: '#FFFBF2',
     gestureHandling: 'cooperative',
-    mapTypeControl: false, streetViewControl: false, fullscreenControl: true,
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      mapTypeIds: ['hybrid', 'roadmap'],
+      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: google.maps.ControlPosition.TOP_LEFT
+    },
+    streetViewControl: false, fullscreenControl: true,
     clickableIcons: false
   });
 
@@ -1385,17 +1392,22 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
     iw.open({ map: map });
   }
 
+  // Ink outlines on the paper map, cream outlines on satellite photos
+  function zoneStroke(){ return map.getMapTypeId() === 'roadmap' ? '#0F0E17' : '#FFFBF2'; }
   var polys = ZONES.map(function(z){
     var poly = new google.maps.Polygon({
       map: map,
       paths: z.pts.map(function(p){ return { lat: p[0], lng: p[1] }; }),
-      strokeColor: '#0F0E17', strokeWeight: 3, strokeOpacity: 1,
+      strokeColor: zoneStroke(), strokeWeight: 3, strokeOpacity: 1,
       fillColor: z.color, fillOpacity: 0.5
     });
     poly.addListener('mouseover', function(){ poly.setOptions({ fillOpacity: 0.72, strokeWeight: 4 }); });
     poly.addListener('mouseout', function(){ poly.setOptions({ fillOpacity: 0.5, strokeWeight: 3 }); });
     poly.addListener('click', function(){ openZone(z); });
     return poly;
+  });
+  map.addListener('maptypeid_changed', function(){
+    polys.forEach(function(p){ p.setOptions({ strokeColor: zoneStroke() }); });
   });
 
   // Zone name chips pinned to each zone's center
