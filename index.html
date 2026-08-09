@@ -361,28 +361,12 @@ html{scroll-behavior:smooth}
   <div class="container">
     <div class="cred-grid">
       <div class="cred-item"><b>4M+</b><span>YouTube subs on stage</span></div>
-      <div class="cred-item"><b>10</b><span>Speakers &amp; instructors</span></div>
+      <div class="cred-item"><b>8</b><span>Speakers &amp; instructors</span></div>
       <div class="cred-item"><b>100+</b><span>Businesses grown</span></div>
       <div class="cred-item"><b>150</b><span>Total seats</span></div>
     </div>
   </div>
 </div>
-
-<!-- ═══ VIDEO ═══ -->
-<section class="sec bordered slide">
-  <div class="container">
-    <span class="sec-tag">Watch this first</span>
-    <h2>See what you're <span class="hl-kick">signing up for</span></h2>
-    <p class="sec-intro">Ninety seconds on why we're packing 150 entrepreneurs into one park for one day.</p>
-    <!-- TODO: replace VIMEO_ID_HERE with the promo video's Vimeo ID once it's shot,
-         and swap the temporary thumbnail below for a real video still (pf/kickstart-summit-video.webp) -->
-    <div class="reel" data-video="VIMEO_ID_HERE" style="margin-top:36px">
-      <img class="reel-thumb" src="https://kicklick.com/pf/kicklick.webp" alt="KickStart Summit 2026 promo video" loading="lazy" width="1200" height="675">
-      <div class="play"></div>
-      <div class="reel-label">KickStart Summit 2026 — Official Promo</div>
-    </div>
-  </div>
-</section>
 
 <!-- ═══ WHAT YOU GET — value-stack (Hormozi framing) ═══ -->
 <section class="sec bordered on-cobalt slide" id="value">
@@ -400,7 +384,7 @@ html{scroll-behavior:smooth}
       <button class="stack-row" data-worth="$1,800" aria-expanded="false">
         <i>02</i><b>Direct access to 11 operators who've done it</b>
         <em>$1,800</em>
-        <p>A 4M-subscriber YouTuber. The co-founder of Culver's. A guy who took one restaurant to a Wausau institution. They're not behind a rope line — they're in the rooms, at the tables, at happy hour. Their hourly rate, if you could even book them, would eat your whole ticket in twenty minutes.</p>
+        <p>A 4M-subscriber YouTuber. A guy who took one restaurant to a Wausau institution. They're not behind a rope line — they're in the rooms, at the tables, at happy hour. Their hourly rate, if you could even book them, would eat your whole ticket in twenty minutes.</p>
       </button>
       <button class="stack-row" data-worth="$1,200" aria-expanded="false">
         <i>03</i><b>7 hands-on workshops. Pick your 3.</b>
@@ -410,7 +394,7 @@ html{scroll-behavior:smooth}
       <button class="stack-row" data-worth="$900" aria-expanded="false">
         <i>04</i><b>3 keynotes you'd normally pay a conference ticket to hear</b>
         <em>$900</em>
-        <p>Antonio built a global brand from a Wisconsin town of 1,000. Craig turned one custard stand into 900+ restaurants. These aren't motivational speeches — they're case studies from people who solved the exact problem you're standing in front of.</p>
+        <p>Antonio built a global brand from a Wisconsin town of 1,000. These aren't motivational speeches — they're case studies from people who solved the exact problem you're standing in front of.</p>
       </button>
       <button class="stack-row" data-worth="$600" aria-expanded="false">
         <i>05</i><b>3 live panels — ask them anything</b>
@@ -460,17 +444,15 @@ html{scroll-behavior:smooth}
         <p>Marine officer turned 4M-subscriber brand — built from a Wisconsin town of 1,000.</p>
         <a class="svc-link" href="#" onclick="event.preventDefault()">Learn More →</a>
       </div>
-            <div class="svc c-cobalt reveal" onclick="openSpeaker('craig')" role="button" tabindex="0" aria-label="Open Craig Culver dossier">
-        <!-- TODO: real headshot of Craig; confirm booking before launch -->
-        <div class="card-thumb"><img data-ph="CC|#3A2BE0|#FFFBF2" alt="Craig Culver headshot" width="640" height="640"></div>
-        <h3>Craig Culver</h3>
-        <div class="svc-sub">Co-Founder, Culver's</div>
-        <p>From one Sauk City custard stand to 900+ restaurants — Wisconsin's most beloved franchise story.</p>
-        <a class="svc-link" href="#" onclick="event.preventDefault()">Learn More →</a>
+            <div class="svc c-cobalt tbd reveal" aria-label="Keynote speaker to be announced">
+        <div class="card-thumb"><img data-ph="?|#3A2BE0|#FFFBF2" alt="Keynote speaker to be announced" width="640" height="640"><span class="tag-tbd">Coming Soon</span></div>
+        <h3>To Be Announced</h3>
+        <div class="svc-sub">Keynote Speaker</div>
+        <p>More coming soon — the next keynote speaker is being confirmed now.</p>
       </div>
-            <div class="svc c-kick reveal" onclick="openSpeaker('tony')" role="button" tabindex="0" aria-label="Open Tony Jordan dossier">
-        <div class="card-thumb"><img loading="lazy" decoding="async" src="https://kicklick.com/img/tony-jordan.webp" alt="Tony Jordan, CEO and Founder of KickLick" width="640" height="360"><span class="tag-confirmed">✓ Confirmed</span><span class="tag-host">★ Host</span></div>
-        <h3>Tony Jordan</h3>
+            <div class="svc c-kick reveal" onclick="openSpeaker('tony')" role="button" tabindex="0" aria-label="Open Tony Jordan Ruffi dossier">
+        <div class="card-thumb"><img loading="lazy" decoding="async" src="https://kicklick.com/img/tony-jordan.webp" alt="Tony Jordan Ruffi, CEO and Founder of KickLick" width="640" height="360"><span class="tag-confirmed">✓ Confirmed</span><span class="tag-host">★ Host</span></div>
+        <h3>Tony Jordan Ruffi</h3>
         <div class="svc-sub">Entrepreneur &amp; Your Host</div>
         <p>100+ businesses grown, 4 political races won. Closing the day with "Growing yours."</p>
         <a class="svc-link" href="#" onclick="event.preventDefault()">Learn More →</a>
@@ -515,13 +497,6 @@ html{scroll-behavior:smooth}
         <p>Army vet, regenerative farmer, nonprofit founder — a masterclass in narrative.</p>
         <a class="svc-link" href="#" onclick="event.preventDefault()">Learn More →</a>
       </div>
-      <div class="svc c-kick reveal" onclick="openSpeaker('mitch')" role="button" tabindex="0" aria-label="Open Mitch Bram dossier">
-        <div class="card-thumb"><img loading="lazy" decoding="async" src="mitch-bram.jpg" alt="Mitch Bram headshot" width="720" height="720"><span class="tag-confirmed">✓ Confirmed</span></div>
-        <h3>Mitch Bram</h3>
-        <div class="svc-sub">Clothier</div>
-        <p>Selling since elementary school — $5K a month at 11, youngest hire in Tom James history at 19, now dressing Wisconsin's professionals in custom suits.</p>
-        <a class="svc-link" href="#" onclick="event.preventDefault()">Learn More →</a>
-      </div>
       <div class="svc c-kick reveal" onclick="openSpeaker('roy')" role="button" tabindex="0" aria-label="Open Rogelio &quot;Roy&quot; Romano dossier">
         <!-- Photo: save Roy's photo as roy-romano.jpg in the same folder as this page -->
         <div class="card-thumb"><img loading="lazy" decoding="async" src="roy-romano.jpg" alt="Rogelio &quot;Roy&quot; Romano at El Tequila Salsa" width="720" height="720"><span class="tag-confirmed">✓ Confirmed</span></div>
@@ -564,7 +539,7 @@ html{scroll-behavior:smooth}
     <div class="sched">
       <div class="sched-row"><span class="time">FRI 6:00 PM</span><b>VIP Kickoff Reception</b> <span class="what">— VIP add-on · 20 seats · venue announced with your ticket</span></div>
       <div class="sched-row"><span class="time">7:00 AM</span><b>Registration, coffee &amp; check-in</b> <span class="what">— Main Gate · 7:00–9:00</span></div>
-      <div class="sched-row"><span class="time">9:00 AM</span><b>Morning Kick Off — Tony Jordan &amp; Antonio Centeno</b> <span class="what">— Main Stage Zone</span></div>
+      <div class="sched-row"><span class="time">9:00 AM</span><b>Morning Kick Off — Tony Jordan Ruffi &amp; Antonio Centeno</b> <span class="what">— Main Stage Zone</span></div>
       <div class="sched-row"><span class="time">9:30 AM</span><b>Speaker intros — Andrew Rohm &amp; Antonio Centeno</b> <span class="what">— Main Stage Zone</span></div>
       <div class="sched-row"><span class="time">10:00 AM</span><div class="ws-set"><b>Workshop Block 1 — three rooms, pick one</b>
         <div class="ws-chips">
@@ -590,10 +565,10 @@ html{scroll-behavior:smooth}
         </div></div></div>
       <div class="sched-row"><span class="time">3:15 PM</span><b>Break</b> <span class="what">— food trucks</span></div>
       <div class="sched-row"><span class="time">3:30 PM</span><b>The Multimillion CEO Panel</b> <span class="what">— Main Stage Zone</span></div>
-      <div class="sched-row"><span class="time">4:15 PM</span><b>Keynote — Tony Jordan</b> <span class="what">— Main Stage Zone</span></div>
+      <div class="sched-row"><span class="time">4:15 PM</span><b>Keynote — Tony Jordan Ruffi</b> <span class="what">— Main Stage Zone</span></div>
       <div class="sched-row"><span class="time">4:45 PM</span><b>Keynote — Antonio Centeno</b> <span class="what">— Growing a YouTube Channel to 4 Million Subscribers</span></div>
       <div class="sched-row"><span class="time">5:45 PM</span><b>Break</b> <span class="what">— stretch, snack, swap cards</span></div>
-      <div class="sched-row"><span class="time">6:00 PM</span><b>Keynote — Craig Culver</b> <span class="what">— How I Started &amp; Grew Culver's</span></div>
+      <div class="sched-row"><span class="time">6:00 PM</span><b>Keynote — To Be Announced</b> <span class="what">— Main Stage Zone</span></div>
       <div class="sched-row"><span class="time">7:00 PM</span><b>Hour of Power</b> <span class="what">— open networking · 7:00–8:00</span></div>
     </div>
   </div>
@@ -617,7 +592,6 @@ html{scroll-behavior:smooth}
     <p class="sec-intro">Catered lunch and the closing Hour of Power are on us. Food trucks handle everything in between — <b>the truck lineup is being finalized now.</b></p>
     <p class="food-tier-label">Included with your ticket</p>
     <div class="truck-grid">
-      <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Catered Lunch</h3><p>Seated by industry at the Food Pavilion — eat with people who get your business.</p><span class="hrs">12:30 PM · Food &amp; Networking Zone</span></div>
       <div class="truck inc reveal"><div class="badge-inc">Included</div><h3>Hour of Power</h3><p>The closing networking hour — every connection you didn't make yet, made.</p><span class="hrs">7 – 8 PM · Food &amp; Networking Zone</span></div>
     </div>
     <p class="food-tier-label">Food Truck Row · pay as you go</p>
@@ -969,20 +943,8 @@ const SPEAKERS = {
       "His workshop is about the builder's mindset: finding the thing you can't buy anywhere, and becoming the person who makes it. Hear the backstory on Real Common Sense Ep. 7 \u2014 then get the rest live."
     ]
   },
-  craig: {
-    name: "Craig Culver", initials: "CC", bg: "#3A2BE0", fg: "#FFFBF2",
-    role: "Co-Founder, Culver's",
-    talk: "\u201cOne custard stand to 900+ restaurants\u201d \u2014 2:30 PM keynote",
-    facts: [["Profession","Co-Founder & Restaurateur"],["Business","Culver's \u2014 est. 1984"],["Scale","900+ restaurants nationwide"],["Roots","Sauk City, WI"],["Famous for","ButterBurgers & frozen custard"],["Website","culvers.com"]],
-    url: "https://www.culvers.com",
-    bio: [
-      "In 1984, Craig Culver and his family opened a single frozen custard stand in Sauk City, Wisconsin. Nobody outside Sauk County had heard of a ButterBurger.",
-      "Four decades later, Culver's is one of America's fastest-growing franchises \u2014 900+ restaurants built on small-town hospitality, quality obsession, and a franchise culture owners genuinely love being part of.",
-      "His keynote is the long game: building a brand that scales without losing the values that started it \u2014 from a man who did it from a town smaller than Wausau."
-    ]
-  },
   tony: {
-    name: "Tony Jordan", initials: "TJ", bg: "#C6F432", fg: "#0F0E17",
+    name: "Tony Jordan Ruffi", initials: "TJ", bg: "#C6F432", fg: "#0F0E17",
     photo: "https://kicklick.com/img/tony-jordan.webp",
     role: "CEO & Founder, KickLick — Your Host",
     talk: "“Growing yours” — 4:15 PM keynote",
@@ -994,19 +956,6 @@ const SPEAKERS = {
       "Back home he founded The Bluejack Group — Wisconsin's political marketing team, with the motto \"we don't just run campaigns, we win them.\" The receipts: unseating an incumbent to elect Wausau's mayor with 52% of the vote, a 66% State Assembly win in a brand-new district, a school board first-timer out-polling three incumbents with 8,231 votes, and a village president race won by 18 votes — where every detail mattered.",
       "He then leveraged Bluejack's success into Dayframer and KickLick — giving small and mid-sized businesses the same quality of marketing as enterprise accounts. Today he works with businesses across the U.S. and hosts the Real Common Sense podcast.",
       "He's hosting the summit and closing the day with what 100+ local businesses — and four winning campaigns — taught him about growth."
-    ]
-  },
-  mitch: {
-    name: "Mitch Bram", initials: "MB", bg: "#0F0E17", fg: "#FF4D24", kicker: "Workshop Instructor",
-    photo: "mitch-bram.jpg",
-    role: "Founder, Fine Line Custom Attire",
-    facts: [["Profession","Clothier & Founder"],["Business","Fine Line Custom Attire"],["First hustle","$5K/month at age 11"],["Milestone","Youngest hire in Tom James history (19)"],["Based in","Madison, WI"],["Podcast","Real Common Sense \u2014 Ep. 8"],["Website","finelinecustomattire.com"]],
-    url: "https://www.finelinecustomattire.com",
-    links: [["web","https://www.finelinecustomattire.com"],["linkedin","https://www.linkedin.com/in/mitch-bram-05bbab1/"]],
-    bio: [
-      "Mitch has been selling since elementary school \u2014 literally. He was clearing $5K a month reselling Beanie Babies at 11, worked menswear at 15, was an assistant manager at 17, and became the youngest hire in the history of Tom James, the world's largest custom clothier, at 19.",
-      "Today he runs Fine Line Custom Attire, dressing Wisconsin's professionals in custom suits with a travel-to-you consultation model built entirely on relationships and referrals.",
-      "His workshop is three decades of selling distilled for owners who don't have a sales team: follow-up systems, same-day quotes, and closing without feeling like a salesman. Hear his story on Real Common Sense Ep. 8."
     ]
   },
   brady: {
@@ -1144,8 +1093,8 @@ const WORKSHOPS = {
     summary:"The next hire at thousands of small businesses won't be a person \u2014 it'll be an AI agent that answers, follows up, and books while the owner sleeps. Andrew and Antonio build one live in the room, and you'll build yours alongside them.",
     covers:["What an 'AI employee' actually is \u2014 demystified","Live build: an agent that answers and books for your business","Connecting it to your phone, website, and calendar","What to automate first \u2014 and what still needs a human"],
     leave:"Your first working AI agent, live on your own business." },
-  closing: { title:"The Closing Edge \u2014 Close More Deals", track:"Workshop", block:"Block 2 \u00b7 11:30 AM\u201312:30 PM", loc:"Workshop Zone", lead:"Mitch Bram, Fine Line Custom Attire",
-    summary:"If you don't have a sales team, you are the sales team. Mitch has sold his whole life \u2014 from $5K a month in Beanie Babies at eleven to the youngest hire in the history of the world's largest custom clothier \u2014 and his answer isn't charisma, it's systems.",
+  closing: { title:"The Closing Edge \u2014 Close More Deals", track:"Workshop", block:"Block 2 \u00b7 11:30 AM\u201312:30 PM", loc:"Workshop Zone", lead:"Instructor being confirmed",
+    summary:"If you don't have a sales team, you are the sales team. This session is sales systems for owners \u2014 follow-up sequences that close while you work, same-day quotes, and asking for the business without the cringe. Instructor announcement coming soon.",
     covers:["A follow-up sequence that closes while you do the work","Same-day quotes: the habit that beats polished competitors","Asking for the business without feeling like a pitch","Handling 'let me think about it' like a pro"],
     leave:"A 5-touch follow-up sequence written for your business." },
   money: { title:"Money Tips & Tricks for Businesses", track:"Workshop", block:"Block 3 \u00b7 2:30\u20133:15 PM", loc:"Workshop Zone", lead:"Rogelio \"Roy\" Romano, El Tequila Salsa",
