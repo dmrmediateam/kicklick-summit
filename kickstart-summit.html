@@ -160,16 +160,36 @@
 /* Slim landing-page nav */
 html{scroll-behavior:smooth}
 .lp-nav{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:var(--border)}
-.lp-nav-inner{max-width:1240px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.lp-back{font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:.04em;color:var(--ink);display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.lp-nav-inner{max-width:1240px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.lp-back{font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:.04em;color:var(--ink);display:inline-flex;align-items:center;gap:8px;text-decoration:none;white-space:nowrap;min-height:44px}
 .lp-back b{font-size:19px;line-height:1}
 .lp-back:hover{color:var(--kick)}
-.lp-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-.lp-links a{font-weight:700;text-transform:uppercase;font-size:13.5px;letter-spacing:.04em;color:var(--ink);text-decoration:none}
-.lp-links a:hover{color:var(--kick)}
-.lp-links .btn{font-size:13px;padding:10px 16px}
+.lp-back-short{display:none}
+.lp-cta-mobile{display:none}
+.lp-links{display:flex;gap:6px;align-items:center}
+.lp-links a{position:relative;font-weight:700;text-transform:uppercase;font-size:13.5px;letter-spacing:.04em;color:var(--ink);text-decoration:none;padding:12px 10px}
+.lp-links a:not(.btn)::after{content:"";position:absolute;left:10px;right:10px;bottom:6px;height:3px;background:var(--kick);transform:scaleX(0);transform-origin:left;transition:transform .18s}
+.lp-links a:not(.btn):hover::after,.lp-links a:not(.btn).active::after{transform:scaleX(1)}
+.lp-links .btn{font-size:13px;padding:10px 16px;margin-left:8px}
 .lp-links .btn:hover{color:var(--paper)}
-@media(max-width:700px){.lp-nav-inner{justify-content:center}.lp-links{gap:12px}.lp-links a{font-size:12px}}
+.lp-links a:focus-visible,.lp-back:focus-visible,.lp-menu-btn:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px}
+.lp-menu-btn{display:none}
+@media(max-width:900px){
+  .lp-back-full{display:none}
+  .lp-back-short{display:inline}
+  .lp-cta-mobile{display:inline-block;font-size:12.5px;padding:9px 13px;margin-left:auto}
+  .lp-menu-btn{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;width:48px;height:44px;padding:0 11px;background:var(--paper);border:var(--border);box-shadow:3px 3px 0 var(--ink);cursor:pointer;flex-shrink:0}
+  .lp-menu-btn span{display:block;height:3px;background:var(--ink);transition:transform .2s,opacity .2s}
+  .lp-menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  .lp-menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .lp-menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+  .lp-links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:var(--border);flex-direction:column;align-items:stretch;gap:0;padding:6px 20px 18px}
+  .lp-links.open{display:flex}
+  .lp-links a{font-size:16px;padding:0 6px;min-height:50px;display:flex;align-items:center}
+  .lp-links a:not(.btn){border-bottom:2px dashed rgba(15,14,23,.18)}
+  .lp-links a:not(.btn)::after{display:none}
+  .lp-links .btn{margin:16px 0 0;justify-content:center;text-align:center;font-size:15px}
+}
 /* Speaker dossier modal */
 .spk-overlay{position:fixed;inset:0;background:rgba(15,14,23,.85);z-index:990;display:none;align-items:flex-start;justify-content:center;padding:5vh 20px;overflow-y:auto}
 .spk-overlay.open{display:flex}
@@ -307,10 +327,12 @@ html{scroll-behavior:smooth}
 </head>
 <body>
 
-<nav class="lp-nav">
+<nav class="lp-nav" aria-label="Page navigation">
   <div class="lp-nav-inner">
-    <a class="lp-back" href="https://kicklick.com/"><b>&larr;</b> Back to KickLick.com</a>
-    <div class="lp-links">
+    <a class="lp-back" href="https://kicklick.com/"><b>&larr;</b> <span class="lp-back-full">Back to KickLick.com</span><span class="lp-back-short">KickLick.com</span></a>
+    <a class="btn lp-cta-mobile" href="#tickets">Tickets</a>
+    <button class="lp-menu-btn" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="lp-links" id="navMenu">
       <a href="#speakers">Speakers</a>
       <a href="#schedule">Schedule</a>
       <a href="#food">Food</a>
@@ -1429,6 +1451,39 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
   new IntersectionObserver(function(es){
     es.forEach(function(e){ mq.classList.toggle('run', e.isIntersecting); });
   }, { rootMargin: '100px 0px' }).observe(mq);
+})();
+</script>
+<!-- Nav: mobile menu toggle + current-section highlight -->
+<script>
+(function(){
+  var btn = document.getElementById('navToggle'), menu = document.getElementById('navMenu');
+  if (!btn || !menu) return;
+  function setOpen(open){
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.classList.toggle('open', open);
+  }
+  btn.addEventListener('click', function(){ setOpen(btn.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) setOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+  // Scrollspy: underline the section currently on screen
+  if ('IntersectionObserver' in window) {
+    var map = {}, current = null;
+    menu.querySelectorAll('a[href^="#"]:not(.btn)').forEach(function(a){
+      var sec = document.querySelector(a.getAttribute('href'));
+      if (sec) map[sec.id] = a;
+    });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting && map[e.target.id]){
+          if (current) current.classList.remove('active');
+          current = map[e.target.id];
+          current.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-25% 0px -65% 0px' });
+    Object.keys(map).forEach(function(id){ io.observe(document.getElementById(id)); });
+  }
 })();
 </script>
 </body>
