@@ -255,7 +255,8 @@ html{scroll-behavior:smooth}
 .badge-pending{border:2px dashed var(--sun);color:var(--sun)}
 .badge-inc{background:var(--volt);color:var(--ink);border:2.5px solid var(--ink)}
 @media(max-width:700px){.truck-grid{grid-template-columns:1fr}}
-.zone-key{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.zone-key{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+@media(max-width:1000px){.zone-key{grid-template-columns:repeat(2,1fr)}}
 .zk{border:var(--border);box-shadow:var(--shadow-sm);padding:14px 16px;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase;font-size:14.5px;letter-spacing:.03em;cursor:pointer;text-align:left}
 .zk:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
 .zk.z1{background:var(--kick);color:var(--paper)}
@@ -640,8 +641,9 @@ html{scroll-behavior:smooth}
     </div>
     <div class="zone-key">
       <button class="zk z1" onclick="focusZone(0)">🎤 Main Stage Zone</button>
-      <button class="zk z2" onclick="focusZone(1)">🛠 Workshop Zone</button>
-      <button class="zk z3" onclick="focusZone(2)">🍽 Food &amp; Networking Zone</button>
+      <button class="zk z2" onclick="focusZone(1)">🛠 Workshops · Stage 1</button>
+      <button class="zk z2" onclick="focusZone(2)">🛠 Workshops · Stage 2</button>
+      <button class="zk z3" onclick="focusZone(3)">🍽 Food &amp; Networking Zone</button>
     </div>
     <p class="map-note">Pinch, scroll, or use +/− to zoom · tap a colored zone for what happens there · zone outlines are approximate until final site layout is locked.</p>
   </div>
@@ -1364,10 +1366,14 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
       desc: 'Kick offs, all 3 keynotes, all 3 panels & speaker intros · 9:00 AM – 7:00 PM',
       chip: { lat: 44.98745, lng: -89.60790 },
       pts: [[44.98794,-89.60843],[44.98794,-89.60748],[44.98727,-89.60748],[44.98727,-89.60843]] },
-    { name: '🛠 Workshop Zone', short: '🛠 Workshops', color: '#3A2BE0', text: '#FFFBF2',
-      desc: 'All 7 hands-on workshops across 3 blocks · 10:00 AM – 3:15 PM · bring a laptop',
-      chip: { lat: 44.98785, lng: -89.60870 },
-      pts: [[44.98807,-89.60895],[44.98807,-89.60847],[44.98750,-89.60847],[44.98750,-89.60895]] },
+    { name: '🛠 Workshops · Stage 1', short: 'Stage 1', color: '#3A2BE0', text: '#FFFBF2',
+      desc: 'Hands-on workshop sessions · 10:00 AM – 3:15 PM · bring a laptop',
+      chip: { lat: 44.98794, lng: -89.60871 },
+      pts: [[44.98807,-89.60895],[44.98807,-89.60847],[44.98781,-89.60847],[44.98781,-89.60895]] },
+    { name: '🛠 Workshops · Stage 2', short: 'Stage 2', color: '#3A2BE0', text: '#FFFBF2',
+      desc: 'Hands-on workshop sessions · 10:00 AM – 3:15 PM · bring a laptop',
+      chip: { lat: 44.98763, lng: -89.60871 },
+      pts: [[44.98777,-89.60895],[44.98777,-89.60847],[44.98750,-89.60847],[44.98750,-89.60895]] },
     { name: '🍽 Food & Networking Zone', short: '🍽 Food & Networking', color: '#C6F432', text: '#0F0E17',
       desc: 'Food trucks 11–6 · catered lunch 12:30 · Hour of Power 7–8 PM',
       chip: { lat: 44.98830, lng: -89.60935 },
