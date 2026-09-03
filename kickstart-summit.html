@@ -1157,8 +1157,7 @@ function openSpeaker(id) {
       "<div><div class='spk-kicker'>" + (s.kicker || "Keynote Speaker") + "</div><h3>" + s.name + "</h3><p class='spk-role'>" + s.role + "</p>" + socialRow(s) + "</div>" +
     "</div>" +
     "<div class='spk-body'>" +
-      "<div class='spk-bio'><h4>The story</h4>" + s.bio.map(function(p){ return "<p>" + p + "</p>"; }).join("") +
-        (function(){ var ss = speakerSessions(s); return ss ? "<h4>Sessions at the summit</h4><div class='spk-sess'>" + ss + "</div>" : ""; })() + "</div>" +
+      "<div class='spk-bio'><h4>The story</h4>" + s.bio.map(function(p){ return "<p>" + p + "</p>"; }).join("") + "</div>" +
       "<div class='spk-facts'><h4>Dossier</h4>" + factsHtml + "</div>" +
     "</div>";
   spkOverlay.classList.add("open");
