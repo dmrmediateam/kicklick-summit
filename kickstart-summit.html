@@ -323,6 +323,14 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '1075583964997897');
 fbq('init', '38735433666047660');
 fbq('track', 'PageView');
+// InitiateCheckout when someone clicks a ticket button (gives Meta a mid-funnel signal)
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[href*="portal.kicklick.com/payment-link"]');
+  if (!a || !window.fbq) return;
+  var vip = a.id === 'vipBtn';
+  var early = Date.now() <= new Date('2027-04-01T23:59:59-05:00').getTime();
+  fbq('track', 'InitiateCheckout', {value: vip ? 2000 : (early ? 149 : 399), currency: 'USD', content_name: vip ? 'KickStart Summit VIP Admission' : 'KickStart Summit General Admission'});
+});
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1075583964997897&ev=PageView&noscript=1"
@@ -867,7 +875,7 @@ src="https://www.facebook.com/tr?id=38735433666047660&ev=PageView&noscript=1"
   <div class="container banner-inner">
     <div>
       <h2>Only 150 tickets exist. When they're gone, they're gone.</h2>
-      <div class="mono-list" id="bnMono">Early bird ends April 1 · No waitlist · No livestream · No second date</div>
+      <div class="mono-list" id="bnMono">Early bird ends April 1 · No waitlist · No second date</div>
     </div>
     <div class="banner-price" id="bnPrice"><b><s class="price-was">$399</s>$149</b><span>Early Bird Price · then $399 standard</span></div>
   </div>
@@ -1244,7 +1252,7 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
     if (eb) eb.style.display = 'none';
     if (std) std.style.display = '';
     var bm = document.getElementById('bnMono');
-    if (bm) bm.textContent = 'No waitlist \u00b7 No livestream \u00b7 No second date';
+    if (bm) bm.textContent = 'No waitlist \u00b7 No second date';
     var bp = document.getElementById('bnPrice');
     if (bp) bp.innerHTML = '<b>$399</b><span>Standard Price \u00b7 150 seats only</span>';
     var t1 = document.getElementById('tix1'); if (t1) t1.textContent = 'This lineup. One day. $399.';
@@ -1304,7 +1312,6 @@ var TICKETS_API = "YOUR_WORKER_URL_HERE"; // e.g. https://kickstart-tickets.your
     "Early bird: $149 through April 1 — then $399.",
     "3 keynotes · 7 workshops · 2 panels · 1 day.",
     "May 22, 2027 · Wausau, WI · venue announcing soon.",
-    "No livestream. No replay. You're either there or you're not.",
     "VIP Admission: 10 seats. Meet every speaker the night before."
   ], mi = 0, msgEl = document.getElementById('cdMsg');
   if (Date.now() > new Date('2027-04-01T23:59:59-05:00').getTime()) msgs[1] = "Tickets: $399 \u2014 still the best money you'll spend this year.";

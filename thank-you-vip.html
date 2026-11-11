@@ -78,7 +78,20 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '1075583964997897');
 fbq('init', '38735433666047660');
 fbq('track', 'PageView');
-fbq('track', 'Purchase', {value: 2000, currency: 'USD'});
+// Purchase: fire once per browser, and only for real checkouts
+// (arrived from the checkout page, or with an order id in the URL) — not every page view.
+(function(){
+  try {
+    var q = new URLSearchParams(location.search);
+    var oid = q.get('order_id') || q.get('orderId') || q.get('transaction_id') || q.get('transactionId') || q.get('invoice_id') || q.get('payment_id') || '';
+    var fromCheckout = /portal\.kicklick\.com|dayframer/i.test(document.referrer || '');
+    if (!oid && !fromCheckout) return;
+    var key = 'ks_purchase_vip_' + (oid || 'session');
+    if (window.localStorage && localStorage.getItem(key)) return;
+    fbq('track', 'Purchase', {value: 2000, currency: 'USD', content_name: 'KickStart Summit VIP Admission', content_type: 'product'}, {eventID: key + '_' + (oid || Date.now())});
+    if (window.localStorage) localStorage.setItem(key, '1');
+  } catch (e) {}
+})();
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1075583964997897&ev=PageView&noscript=1"
